@@ -42,6 +42,12 @@ class Student:
         return res
 
 
+    def __lt__(self, other):
+        if not isinstance (other, Student):
+            print('Нет такого студента')
+        else:
+            return self.average_grade() < other.average_grade()
+
 class Mentor:
     def __init__(self, name, surname):
         self.name = name
@@ -60,7 +66,7 @@ class Lecturer(Mentor):
         else:
             self.courses_attached.append(course_name)
 
-    def __average_grade__(self):
+    def average_grade(self):
         grades_list = []
         for a in self.lecturer_grades.values():
             for b in a:
@@ -74,9 +80,15 @@ class Lecturer(Mentor):
 
     def __str__(self):
         res = f'Лектор \nИмя: {self.name} \nФамилия: {self.surname} \nСредняя оценка за лекции: ' \
-              f'{str(self.__average_grade__())}'
+              f'{str(self.average_grade())}'
         return res
 
+
+    def __lt__(self, other):
+        if not isinstance (other, Lecturer):
+            print('Нет такого лектора')
+        else:
+            return self.average_grade() < other.average_grade()
 
 class Reviewer(Mentor):
     def rate_hw(self, student, course_name, grade):
@@ -87,12 +99,17 @@ class Reviewer(Mentor):
                 student.grades[course_name] = [grade]
         else:
             return 'Ошибка'
+
+
     def __str__(self):
         res = f'Имя: {self.name} \nФамилия: {self.surname}'
         return res
 
+
+
+
 student1 = Student('Иван', 'ИВанов', 'Мужской')
-student2 = Student('Петр', 'Петров', 'МУжской')
+student2 = Student('Петр', 'Петров', 'Мужской')
 lecturer1 = Lecturer('Сидор','Сидоров')
 lecturer2 = Lecturer('Емельян', 'Емельянов')
 reviewer1 = Reviewer('Михаил', 'Михаилов')
@@ -122,3 +139,5 @@ print(lecturer2)
 print(reviewer1)
 print(reviewer2)
 
+print(lecturer1.__lt__(lecturer2))
+print(student1.__lt__(student2))
