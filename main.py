@@ -1,4 +1,5 @@
 students = []
+lecturers = []
 class Student:
 
     def __init__(self, name, surname, gender):
@@ -61,6 +62,7 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.lecturer_grades = {}
         self.courses_attached = []
+        lecturers.append(self)
 
     def attach_course(self, course_name):
         if course_name in self.courses_attached:
@@ -139,7 +141,6 @@ print(reviewer2)
 
 print(lecturer1.__lt__(lecturer2))
 print(student1.__lt__(student2))
-print(students)
 
 def average_stud_grade (course):
     stud_grades = []
@@ -155,4 +156,19 @@ def average_stud_grade (course):
         avg = f'Нет оценок по предмету {course}'
     return avg
 
+def average_lecturer_grade (course):
+    lect_grades = []
+    course_grades = []
+    for k in lecturers:
+       if course in k.lecturer_grades:
+          lect_grades.append(k.lecturer_grades[course])
+    for grade in lect_grades:
+       course_grades.extend(grade)
+    if len(course_grades) > 0:
+       avg = sum(course_grades)/len(course_grades)
+    else:
+        avg = f'Нет оценок по предмету {course}'
+    return avg
+
 print(average_stud_grade ('Физика'))
+print(average_lecturer_grade('Физика'))
